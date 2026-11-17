@@ -527,6 +527,27 @@ function getServiceIcon(name) {
   );
 }
 
+function getServiceIllustration(name) {
+  const serviceName = normalizeServiceSearch(name);
+  const illustrationRules = [
+    [/iptu/, "iptu.svg"],
+    [/diario oficial/, "diario.svg"],
+    [/contracheque/, "contracheque.svg"],
+    [/transparencia/, "transparencia.svg"],
+    [/onibus/, "onibus.svg"],
+    [/governo digital/, "governo-digital.svg"],
+    [/(e-sic|fala br)/, "esic.svg"],
+    [/\bsei\b/, "sei.svg"],
+    [/protocolo.*(servidor|funcionario)/, "protocolo-servidor.svg"],
+    [/protocolo.*cidadao/, "protocolo-cidadao.svg"],
+  ];
+
+  return (
+    illustrationRules.find(([pattern]) => pattern.test(serviceName))?.[1] ??
+    null
+  );
+}
+
 serviceCatalogPanels.forEach((panel) => {
   const { modality } = panel.dataset;
   const serviceCatalogList = panel.querySelector(".service-catalog-list");
@@ -556,7 +577,8 @@ serviceCatalogPanels.forEach((panel) => {
 
     visibleServices.forEach(({ name }) => {
       const item = document.createElement("li");
-      const icon = document.createElement("i");
+      const illustration = getServiceIllustration(name);
+      const icon = document.createElement(illustration ? "img" : "i");
       const configuredLinks =
         modality === "ON-LINE" ? serviceLinks.get(name) : undefined;
       const occurrence = serviceLinkOccurrences.get(name) ?? 0;
@@ -576,8 +598,14 @@ serviceCatalogPanels.forEach((panel) => {
         throw new Error(`Falta link oficial para "${name}".`);
       }
 
-      icon.className = `service-catalog-icon fa-solid ${getServiceIcon(name)}`;
+      icon.className = illustration
+        ? "service-catalog-icon service-catalog-illustration"
+        : `service-catalog-icon fa-solid ${getServiceIcon(name)}`;
       icon.setAttribute("aria-hidden", "true");
+      if (illustration) {
+        icon.setAttribute("src", `img/service-icons/${illustration}`);
+        icon.setAttribute("alt", "");
+      }
       serviceName.className = "service-catalog-name";
       if (modality === "ON-LINE") {
         serviceName.href = serviceLink;

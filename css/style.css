@@ -592,17 +592,25 @@ body {
 }
 
 .footer-columns {
-  display: grid;
-  grid-template-columns: 0.9fr 1.2fr 1.35fr;
+  display: flex;
   gap: 14px;
 }
 
 .footer-columns > .footer-section {
+  flex: 0.9 1 0;
   min-width: 0;
   padding: 20px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 11px;
+}
+
+.footer-columns > .footer-section:nth-child(2) {
+  flex-grow: 1.2;
+}
+
+.footer-columns > .footer-section:nth-child(3) {
+  flex-grow: 1.35;
 }
 
 .footer-section h2 {
@@ -1212,6 +1220,7 @@ body {
 
 .home-services-grid > .service-card {
   align-self: flex-start;
+  flex: 0 0 calc(12.5% - 12.25px);
   min-width: 0;
   position: relative;
   z-index: 0;
@@ -1224,8 +1233,8 @@ body {
 }
 
 .home-services-grid {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 14px;
 }
 
@@ -1303,13 +1312,14 @@ body {
 }
 
 .home-services-grid .service-card-details {
-  display: grid;
-  grid-template-rows: 0fr;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
   padding: 0;
   overflow: hidden;
   opacity: 0;
   transition:
-    grid-template-rows 0.35s ease,
+    max-height 0.35s ease,
     opacity 0.25s ease,
     padding 0.35s ease,
     border-width 0.35s ease;
@@ -1335,7 +1345,7 @@ body {
 }
 
 .home-services-grid > .service-card.is-expanded .service-card-details {
-  grid-template-rows: 1fr;
+  max-height: 1200px;
   opacity: 1;
   padding: 12px 16px 16px;
   border: inherit;
@@ -2104,12 +2114,21 @@ body {
   }
 
   .home-services-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .home-services-grid > .service-card {
+    flex-basis: calc(33.333333% - 10.666667px);
   }
 
   .footer-columns {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 12px;
+  }
+
+  .footer-columns > .footer-section {
+    flex: 0 0 auto;
+    width: 100%;
   }
 
   .footer-top {
@@ -2151,20 +2170,20 @@ body {
 }
 
 @media (max-width: 1100px) and (min-width: 901px) {
-  .home-services-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .home-services-grid > .service-card {
+    flex-basis: calc(25% - 10.5px);
   }
 }
 
 @media (max-width: 600px) {
-  .home-services-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .home-services-grid > .service-card {
+    flex-basis: calc(50% - 8px);
   }
 }
 
 @media (max-width: 420px) {
-  .home-services-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .home-services-grid > .service-card {
+    flex-basis: 100%;
   }
 }
 
@@ -2203,17 +2222,20 @@ body {
 }
 
 .service-offerings-columns {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  display: flex;
   gap: 12px;
   width: 100%;
   min-width: 1020px;
 }
 
+.service-offerings-columns > * {
+  flex: 1 1 0;
+  min-width: 160px;
+}
+
 .service-offerings-catalog {
   width: auto;
-  min-width: 0;
+  min-width: 160px;
   padding: 0;
 }
 
@@ -2234,7 +2256,7 @@ body {
 }
 
 .service-offerings-catalog .service-catalog-list {
-  grid-template-columns: minmax(0, 1fr);
+  flex-direction: column;
   overflow-x: hidden;
 }
 
@@ -2244,24 +2266,29 @@ body {
 }
 
 .service-offerings-catalog .service-catalog-list li {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) max-content;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
   justify-content: initial;
 }
 
 .service-offerings-catalog .service-catalog-marker {
-  grid-column: 3;
-  justify-self: end;
+  margin-left: auto;
 }
 
 .gov-services-category .institution-menu-list,
 #autarquiasMenu .institution-menu-list {
-  grid-template-columns: minmax(0, 1fr);
+  flex-direction: column;
   gap: 7px;
   max-height: min(44vh, 390px);
   overflow-y: auto;
   padding: 2px 6px 2px 2px;
   scrollbar-gutter: stable;
+}
+
+.gov-services-category .institution-menu-list > li,
+#autarquiasMenu .institution-menu-list > li {
+  flex: 0 0 auto;
 }
 
 .gov-services-category .institution-menu-list a,
@@ -2346,8 +2373,8 @@ body {
 }
 
 .service-catalog-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 7px;
   max-height: min(44vh, 390px);
   overflow-y: auto;
@@ -2357,6 +2384,7 @@ body {
 
 .service-catalog-list li {
   display: flex;
+  flex: 0 0 calc(33.333333% - 4.666667px);
   align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
@@ -2506,11 +2534,12 @@ body {
 }
 
 .service-details-close {
-  display: grid;
+  display: flex;
   flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
-  place-items: center;
   color: var(--gray-700);
   background: rgba(0, 143, 204, 0.08);
   border: 1px solid rgba(0, 143, 204, 0.16);
@@ -2524,7 +2553,8 @@ body {
 }
 
 .service-details-content {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
   padding: 18px 22px 22px;
 }
@@ -2542,7 +2572,8 @@ body {
 }
 
 .service-details-location dl {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   margin: 0;
 }
@@ -2618,17 +2649,35 @@ body {
 }
 
 .service-catalog-icon {
-  --fa-display: grid;
+  --fa-display: flex;
 
   flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
   width: 28px;
   height: 28px;
-  place-items: center;
   color: var(--blue-700);
   background: rgba(0, 143, 204, 0.1);
   border: 1px solid rgba(0, 143, 204, 0.12);
   border-radius: 8px;
   font-size: 18px;
+}
+
+.service-catalog-list .service-catalog-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 32px;
+  color: var(--blue-700);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-size: 24px;
+  filter: drop-shadow(0 3px 2px rgba(40, 65, 78, 0.15));
+}
+
+.service-catalog-list .service-catalog-illustration {
+  display: block;
+  object-fit: contain;
 }
 
 .service-catalog-marker {
@@ -2705,10 +2754,14 @@ body {
   color: #f3f6f8;
 }
 
-.dark-theme .service-catalog-icon {
+.dark-theme .service-account-card .service-catalog-icon {
   color: #9cddf4;
   background: rgba(82, 190, 236, 0.12);
   border-color: rgba(130, 209, 242, 0.18);
+}
+
+.dark-theme .service-catalog-list i.service-catalog-icon {
+  color: #9cddf4;
 }
 
 .high-contrast .service-catalog-header h2,
@@ -2746,15 +2799,26 @@ body {
   border: 1px solid #ffff00;
 }
 
-.high-contrast .service-catalog-icon {
+.high-contrast .service-account-card .service-catalog-icon {
   color: #000000;
   background: #ffff00;
   border-color: #ffff00;
 }
 
+.high-contrast .service-catalog-list i.service-catalog-icon {
+  color: #ffff00;
+  background: transparent;
+  border-color: transparent;
+}
+
+.high-contrast .service-catalog-list img.service-catalog-icon {
+  filter: grayscale(1) contrast(1.5);
+}
+
 @media (max-width: 768px) {
-  .service-offerings-columns {
-    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  .mega-menu-columns.service-offerings-columns {
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 
   .service-catalog-header {
@@ -2772,8 +2836,12 @@ body {
   }
 
   .service-catalog-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 7px;
     max-height: 42vh;
+  }
+
+  .service-catalog-list li {
+    flex-basis: calc(50% - 3.5px);
   }
 }
 
@@ -2783,7 +2851,11 @@ body {
   }
 
   .service-catalog-list {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .service-catalog-list li {
+    flex-basis: auto;
   }
 }
 
@@ -2816,8 +2888,8 @@ body {
   .page-banner .banner-nav-dropdowns {
     position: relative;
     inset: auto;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     width: 100%;
     max-width: none;
@@ -2828,7 +2900,11 @@ body {
   }
 
   .page-banner .banner-nav-dropdowns > #sidebar {
-    grid-column: 1 / -1;
+    flex: 0 0 100%;
+  }
+
+  .page-banner .banner-nav-dropdowns > :not(#sidebar) {
+    flex: 1 1 calc(50% - 3px);
   }
 
   .page-banner .nav-dropdown {
@@ -2888,7 +2964,11 @@ body {
   }
 
   #autarquiasMenu .institution-menu-list {
-    grid-template-columns: minmax(0, 1fr);
+    flex-direction: column;
+  }
+
+  #autarquiasMenu .institution-menu-list > li {
+    flex-basis: auto;
   }
 }
 
@@ -2915,12 +2995,14 @@ body {
 }
 
 .institution-menu-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 9px;
 }
 
 .institution-menu-list li {
+  flex: 0 0 calc(50% - 4.5px);
   min-width: 0;
 }
 
@@ -2964,11 +3046,12 @@ body {
 }
 
 .institution-menu-list li a i {
-  display: grid;
+  display: flex;
   flex: 0 0 36px;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
-  place-items: center;
   color: var(--blue-700);
   background: rgba(0, 143, 204, 0.1);
   border: 1px solid rgba(0, 143, 204, 0.12);
@@ -3156,6 +3239,10 @@ body:not(.dark-theme):not(.high-contrast)
 
 @media (max-width: 480px) {
   .institution-menu-list {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .institution-menu-list li {
+    flex-basis: auto;
   }
 }
